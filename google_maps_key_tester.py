@@ -32,6 +32,32 @@ ENDPOINTS = [
     ("Autocomplete", "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=Empire%20State&key={key}")
 ]
 
+HELP_TEXT = """
+[bold cyan]Google Maps API Key Tester[/bold cyan]
+
+Usage:
+  python google_maps_key_tester_pro.py <API_KEY|file.txt> [--csv]
+
+Arguments:
+  <API_KEY>           Single Google Maps API key starting with 'AIza'
+  <file.txt>          Text file containing one or more API keys to test
+
+Options:
+  --csv               Export results to CSV files
+  -h, --help          Show this help message and exit
+
+Description:
+  This tool tests Google Maps API keys by calling multiple endpoints
+  to check which services are enabled or denied.
+
+Examples:
+  python google_maps_key_tester_pro.py AIzaSyDxxxxx1234567890abcdefg
+  python google_maps_key_tester_pro.py keys.txt --csv
+"""
+
+def print_help():
+    console.print(HELP_TEXT)
+
 def test_key(key, export_csv=False):
     console.rule(f"[bold cyan]Testing API Key[/bold cyan] [yellow]{key}[/yellow]")
 
@@ -105,9 +131,9 @@ def run_tests(keys, export_csv):
             pass
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        console.print("[yellow]Usage:[/yellow] python google_maps_key_tester_pro.py <API_KEY|file.txt> [--csv]")
-        sys.exit(1)
+    if len(sys.argv) < 2 or sys.argv[1] in ("-h", "--help"):
+        print_help()
+        sys.exit(0)
 
     arg = sys.argv[1]
     export_csv = "--csv" in sys.argv
